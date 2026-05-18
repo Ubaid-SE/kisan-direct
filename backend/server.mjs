@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 
 import productRoutes from "./routes/productRoutes.mjs";
 dotenv.config();
-console.log(process.env.MONGO_URI);
 const app = express();
 
 // Middleware
