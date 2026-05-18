@@ -23,20 +23,37 @@ const CartDrawer = ({ open, setOpen }) => {
     return sum + price * item.qty;
   }, 0);
 
-  // ✅ SMART TOTAL STRING
-  // - Sirf products → "Rs. 600 + Delivery Charges"
-  // - Sirf other items → "Market Price + Delivery Charges"
-  // - Dono hain → "Rs. 600 + Market Price + Delivery Charges"
-  const getTotalDisplay = () => {
-    if (products.length > 0 && others.length > 0) {
-      return `Rs. ${productsTotal} + Market Price + Delivery Charges`;
-    } else if (products.length > 0) {
-      return `Rs. ${productsTotal} + Delivery Charges`;
-    } else {
-      return `Market Price + Delivery Charges`;
-    }
-  };
+  // ✅ FREE DELIVERY LOGIC
+const freeDeliveryThreshold = 1499;
 
+const remainingAmount = freeDeliveryThreshold - productsTotal;
+
+const hasFreeDelivery = productsTotal >= freeDeliveryThreshold;
+
+const getTotalDisplay = () => {
+  // ✅ BOTH PRODUCTS + OTHER ITEMS
+  if (products.length > 0 && others.length > 0) {
+    if (hasFreeDelivery) {
+      return `Rs. ${productsTotal} + Market Price + FREE Delivery`;
+    } else {
+      return `Rs. ${productsTotal} + Market Price + Delivery Charges 50-199(Based on Location)`;
+    }
+  }
+
+  // ✅ ONLY PRODUCTS
+  else if (products.length > 0) {
+    if (hasFreeDelivery) {
+      return `Rs. ${productsTotal} + FREE Delivery`;
+    } else {
+      return `Rs. ${productsTotal} + Delivery Charges 50-199(Based on Location)`;
+    }
+  }
+
+  // ✅ ONLY OTHER ITEMS
+  else {
+    return `Market Price + Delivery Charges`;
+  }
+};
   // ✅ WHATSAPP MESSAGE — same smart format
   const handleOrder = () => {
     if (!name || !phone || !address) {
@@ -103,8 +120,7 @@ const CartDrawer = ({ open, setOpen }) => {
       </div>
 
       {/* ITEMS */}
-      <div className="p-4 overflow-y-auto flex-1">
-
+<div className="p-4 overflow-y-auto max-h-[45vh] md:max-h-[35vh]">
         {cart.length === 0 && (
           <p className="text-sm text-gray-500">Cart is empty</p>
         )}
@@ -157,32 +173,67 @@ const CartDrawer = ({ open, setOpen }) => {
 
       </div>
 
-      {/* FORM + FOOTER */}
-      <div className="p-4 border-t space-y-3">
+{/* FORM + FOOTER */}
+<div className="p-3 border-t space-y-2">
 
-        <input
-          placeholder="Your Name"
-          className="w-full border p-2 text-sm rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          placeholder="Phone Number"
-          className="w-full border p-2 text-sm rounded"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-        <textarea
-          placeholder="Address"
-          className="w-full border p-2 text-sm rounded"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
+  <input
+    placeholder="Your Name"
+    className="w-full border p-1.5 text-xs rounded"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+  />
+
+  <input
+    placeholder="Phone Number"
+    className="w-full border p-1.5 text-xs rounded"
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+  />
+
+  <textarea
+    rows={2}
+    placeholder="Address"
+    className="w-full border p-1.5 text-xs rounded"
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+  />
 
         {/* ✅ SMART TOTAL — NaN kabhi nahi aayega */}
         <p className="font-semibold text-sm">
           Total: {getTotalDisplay()}
         </p>
+
+        {/* ✅ FREE DELIVERY MESSAGE */}
+{products.length > 0 && (
+  <div className="mt-2">
+    {!hasFreeDelivery ? (
+      <div className="bg-orange-50 border border-orange-200 rounded-lg p-2">
+        <p className="text-xs text-orange-700 font-medium">
+          🚚 Add Rs. {remainingAmount} more to unlock FREE delivery
+        </p>
+
+        {/* PROGRESS BAR */}
+        <div className="w-full bg-orange-100 h-2 rounded-full mt-2 overflow-hidden">
+          <div
+            className="bg-green-500 h-2 rounded-full transition-all duration-500"
+            style={{
+              width: `${Math.min(
+                (productsTotal / freeDeliveryThreshold) * 100,
+                100
+              )}%`,
+            }}
+          ></div>
+        </div>
+      </div>
+    ) : (
+      <div className="bg-green-50 border border-green-200 rounded-lg p-2">
+        <p className="text-xs text-green-700 font-semibold">
+          🎉 You unlocked FREE delivery!
+        </p>
+      </div>
+    )}
+  </div>
+)}
 
         <button
           onClick={handleOrder}
@@ -192,20 +243,31 @@ const CartDrawer = ({ open, setOpen }) => {
         </button>
 
         {/* DELIVERY SLOTS */}
-        {products.length > 0 && (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-3">
-            <h3 className="text-sm font-semibold text-green-700 mb-2">
-              Delivery Schedule
-            </h3>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="border p-2 rounded text-center bg-white">9 AM – 11 AM</div>
-              <div className="border p-2 rounded text-center bg-white">4 PM – 6 PM</div>
-            </div>
-            <p className="text-[10px] text-gray-500 mt-2">
-              📌 Orders are delivered in time slots for efficiency except instant orders.
-            </p>
-          </div>
-        )}
+       {/* DELIVERY SLOTS */}
+{products.length > 0 && (
+  <div className="bg-green-50 border border-green-200 rounded-lg p-2">
+    
+    <h3 className="text-xs font-semibold text-green-700 mb-1">
+      Delivery Schedule
+    </h3>
+
+    <div className="grid grid-cols-2 gap-1 text-[10px]">
+      <div className="border p-1 rounded text-center bg-white">
+        8 AM – 11 AM
+      </div>
+
+      <div className="border p-1 rounded text-center bg-white">
+        4 PM – 6 PM
+      </div>
+    </div>
+
+    <p className="text-[9px] text-gray-500 mt-1 leading-tight">
+      📌 Orders are delivered in time slots for efficiency except instant orders.
+    </p>
+
+  </div>
+)}
+
 
       </div>
     </div>

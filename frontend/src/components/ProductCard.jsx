@@ -2,142 +2,124 @@ import { useState } from "react";
 
 function ProductCard({ product, addToCart }) {
 
-  // ✅ CATEGORY FLAGS
   const isFruitVeg =
     product.category === "fruit" ||
     product.category === "vegetable";
 
-  const isGrocery = product.category === "groceries";
-  const isHomemade = product.category === "homemade";
+  const unit = product.unit || "kg";
+  const variant = product.variant || ""; // e.g. "900 grams", "Large", "450g"
 
-  // ✅ STATES
   const [selectedQuality, setSelectedQuality] = useState("Premium");
-  const [variant, setVariant] = useState("Premium / Export Quality");
+  const [variantLabel, setVariantLabel] = useState("Premium / Export Quality");
   const [qty, setQty] = useState(1);
 
-  // ✅ PRICE LOGIC
+  // Price logic
   let selectedPrice;
-
   if (typeof product.price === "object") {
     selectedPrice =
       selectedQuality === "Premium"
-        ? product.price?.premium
-        : product.price?.standard;
+        ? product.price?.premium ?? product.price?.standard
+        : product.price?.standard ?? product.price?.premium;
   } else {
     selectedPrice = product.price;
   }
 
-  // ✅ ADD TO CART
+  // Discount
+  const discountPercent = Number(product.discount || 0);
+  const finalPrice =
+    discountPercent > 0
+      ? Math.round(selectedPrice - (selectedPrice * discountPercent) / 100)
+      : selectedPrice;
+
   const handleAdd = () => {
-
-    let finalQuality = "Default";
-
-    if (isFruitVeg) {
-      finalQuality = variant; // dropdown based
-    }
-
-    if (isHomemade) {
-      finalQuality = "Premium"; // fixed premium
-    }
-
-    const itemToAdd = {
+    addToCart({
       name: product.name,
-      price: Number(selectedPrice),
+      price: Number(finalPrice || 0),
       image: product.image,
-      quality: finalQuality,
+      quality: isFruitVeg ? variantLabel : (variant || "Default"),
       qty: qty,
-
-      type: isGrocery || isHomemade ? "other" : "product"
-    };
-
-    addToCart(itemToAdd);
+      unit: unit,
+    });
   };
 
   return (
-    <div className="bg-white rounded-xl shadow p-4 min-w-[220px]">
+    <div className="bg-white rounded-xl shadow p-4 flex flex-col">
 
       {/* Image */}
       <img
         src={product.image}
-        className="w-full h-32 object-cover rounded-lg"
+        className="w-full h-40 object-cover object-center rounded-lg"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "https://placehold.co/300x200/e8f5e9/2e7d32?text=Fresh!";
+        }}
       />
 
-      {/* Badge */}
-      <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded">
+      {/* Fresh badge */}
+      <span className="mt-2 inline-block text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded w-fit">
         Fresh!
       </span>
 
       {/* Name */}
-      <h2 className="mt-2 font-semibold text-sm">
-        {product.name}
-      </h2>
+      <h2 className="mt-1 font-semibold text-sm">{product.name}</h2>
 
-      {/* ✅ QUALITY TEXT */}
+      {/* ✅ Fruit/Veg: Standard/Premium dropdown */}
       {isFruitVeg && (
-        <p className="text-xs text-gray-500">{variant}</p>
+        <>
+          <p className="text-xs text-gray-500 mt-0.5">{variantLabel}</p>
+          <select
+            value={variantLabel}
+            onChange={(e) => {
+              const val = e.target.value;
+              setVariantLabel(val);
+              setSelectedQuality(val === "Premium / Export Quality" ? "Premium" : "Standard");
+            }}
+            className="mt-2 w-full border rounded px-2 py-1 text-xs"
+          >
+            <option value="Premium / Export Quality">Premium / Export Quality</option>
+            <option value="Standard Quality">Standard Quality</option>
+          </select>
+        </>
       )}
 
-      {isHomemade && (
-        <p className="text-xs text-gray-500">Premium</p>
-      )}
-
-      {/* ✅ DROPDOWN ONLY FOR FRUITS & VEGETABLES */}
-      {isFruitVeg && (
-        <select
-          value={variant}
-          onChange={(e) => {
-            const val = e.target.value;
-            setVariant(val);
-            setSelectedQuality(
-              val === "Premium / Export Quality" ? "Premium" : "Standard"
-            );
-          }}
-          className="mt-2 w-full border rounded px-2 py-1 text-xs"
-        >
-          <option value="Premium / Export Quality">
-            Premium / Export Quality
-          </option>
-          <option value="Standard Quality">
-            Standard Quality
-          </option>
-        </select>
+      {/* ✅ Non fruit/veg: variant badge (e.g. "900 grams", "Large") */}
+      {!isFruitVeg && variant && (
+        <span className="mt-1 inline-block text-[10px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded w-fit">
+          {variant}
+        </span>
       )}
 
       {/* Price */}
-      <p className="text-green-600 font-bold text-sm mt-1">
-        Rs. {selectedPrice || 0}
-      </p>
+      <div className="mt-2">
+        {discountPercent > 0 ? (
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-green-600 font-bold text-sm">Rs. {finalPrice}</p>
+            <p className="text-gray-400 line-through text-xs">Rs. {selectedPrice}</p>
+            <span className="text-[10px] bg-red-100 text-red-600 px-1 rounded">{discountPercent}% OFF</span>
+          </div>
+        ) : (
+          <p className="text-green-600 font-bold text-sm">Rs. {selectedPrice || 0}</p>
+        )}
+      </div>
 
-      {/* Quantity + Stock */}
+      {/* ✅ Quantity row */}
       <div className="flex items-center justify-between mt-2 text-sm">
-
         <div className="flex items-center gap-2">
           <button
             onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
-            className="px-2 bg-gray-200 rounded"
-          >
-            -
-          </button>
+            className="w-7 h-7 flex items-center justify-center bg-gray-200 rounded font-bold text-base"
+          >-</button>
 
-          {/* ✅ UNIT LOGIC */}
-          <span>
-            {qty} {isGrocery ? "unit" : "kg"}
-          </span>
+          {/* ✅ Sirf qty number + unit — variant alag badge pe dikh raha hai */}
+          <span className="text-xs font-medium">{qty} {unit}</span>
 
           <button
             onClick={() => setQty(qty + 1)}
-            className="px-2 bg-gray-200 rounded"
-          >
-            +
-          </button>
+            className="w-7 h-7 flex items-center justify-center bg-gray-200 rounded font-bold text-base"
+          >+</button>
         </div>
 
-        {/* Stock */}
-        <span
-          className={`text-xs ${
-            product.stock ? "text-green-500" : "text-red-500"
-          }`}
-        >
+        <span className={`text-xs ${product.stock ? "text-green-500" : "text-red-500"}`}>
           {product.stock ? "In Stock" : "Out of Stock"}
         </span>
       </div>
@@ -146,12 +128,8 @@ function ProductCard({ product, addToCart }) {
       <button
         disabled={!product.stock}
         onClick={handleAdd}
-        className={`mt-3 w-full py-1 rounded text-white text-sm
-        ${
-          product.stock
-            ? "bg-green-600 hover:bg-green-700"
-            : "bg-gray-400 cursor-not-allowed"
-        }`}
+        className={`mt-3 w-full py-2 rounded text-white text-sm font-medium
+          ${product.stock ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"}`}
       >
         Add to Cart
       </button>
