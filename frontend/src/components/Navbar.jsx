@@ -3,7 +3,7 @@ import logo from "../assets/logo.png";
 import { FaShoppingCart, FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 
-// ✅ Category display label
+// Category display label
 const getCategoryLabel = (cat) => {
   const labels = {
     fruit: "Fruits",
@@ -18,7 +18,7 @@ function Navbar({ setOpen, searchQuery, setSearchQuery, categories = [] }) {
 
   const { cart } = useCart();
 
-  // ✅ Scroll to section
+  // Scroll to section
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -39,7 +39,7 @@ function Navbar({ setOpen, searchQuery, setSearchQuery, categories = [] }) {
           </div>
         </div>
 
-        {/* ✅ SEARCH BAR — desktop */}
+        {/* SEARCH BAR — desktop */}
         <div className="hidden md:flex items-center border rounded-full px-4 py-2 w-96 bg-gray-50 focus-within:border-green-500 transition-colors">
           <FiSearch className="text-gray-500 flex-shrink-0" />
           <input
@@ -75,7 +75,7 @@ function Navbar({ setOpen, searchQuery, setSearchQuery, categories = [] }) {
         </div>
       </div>
 
-      {/* ✅ MOBILE SEARCH */}
+      {/*  MOBILE SEARCH */}
       <div className="flex md:hidden items-center border rounded-full px-4 py-2 mx-4 mb-2 bg-gray-50 focus-within:border-green-500 transition-colors">
         <FiSearch className="text-gray-500 flex-shrink-0" />
         <input
@@ -92,7 +92,7 @@ function Navbar({ setOpen, searchQuery, setSearchQuery, categories = [] }) {
         )}
       </div>
 
-      {/* ✅ DYNAMIC MENU — jo categories DB mein hain wahi buttons dikhenge */}
+      {/*  DYNAMIC MENU — jo categories DB mein hain wahi buttons dikhenge */}
       <div className="flex gap-1 overflow-x-auto text-sm px-6 pb-2 scrollbar-hide">
         {categories.map(cat => (
           <button

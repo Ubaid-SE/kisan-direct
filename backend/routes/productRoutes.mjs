@@ -4,7 +4,7 @@ import Product from "../models/Product.mjs";
 const router = express.Router();
 
 
-// ✅ GET all products
+// GET all products
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 
-// ✅ ADD product
+// ADD product
 router.post("/", async (req, res) => {
   try {
     const newProduct = new Product(req.body);
@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
 });
 
 
-// ✅ UPDATE product (FIX FOR STOCK TOGGLE)
+// UPDATE product (FIX FOR STOCK TOGGLE)
 router.put("/:id", async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -43,7 +43,7 @@ router.put("/:id", async (req, res) => {
 });
 
 
-// ✅ DELETE product (FIX FOR DELETE BUTTON)
+//  DELETE product (FIX FOR DELETE BUTTON)
 router.delete("/:id", async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);

@@ -7,16 +7,16 @@ function Checkout() {
   const [form, setForm] = useState({ name: "", phone: "", address: "" });
   const [success, setSuccess] = useState(false);
 
-  // ✅ SPLIT CART
+  // SPLIT CART
   const products = cart.filter(item => item.type !== "other");
   const others = cart.filter(item => item.type === "other");
 
-  // ✅ SIRF PRODUCTS KI PRICE
+  // SIRF PRODUCTS KI PRICE
   const productsTotal = products.reduce((sum, item) => {
     return sum + (Number(item.price) || 0) * item.qty;
   }, 0);
 
-  // ✅ SMART TOTAL STRING
+  //  SMART TOTAL STRING
   const getTotalDisplay = () => {
     if (products.length > 0 && others.length > 0) {
       return `Rs. ${productsTotal} + Market Price + Delivery Charges`;
@@ -60,7 +60,7 @@ function Checkout() {
       message += `\n`;
     }
 
-    // ✅ Smart total in message
+    //  Smart total in message
     if (products.length > 0 && others.length > 0) {
       message += `💰 *Total: Rs. ${productsTotal} + Market Price + Delivery Charges*\n`;
     } else if (products.length > 0) {
@@ -105,7 +105,7 @@ function Checkout() {
         className="w-full border p-2 rounded mb-2 text-sm"
       />
 
-      {/* ✅ SMART TOTAL — NaN nahi aayega */}
+      {/*  SMART TOTAL — NaN nahi aayega */}
       <p className="text-sm font-semibold mb-3">
         Total: {getTotalDisplay()}
       </p>

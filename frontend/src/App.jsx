@@ -11,7 +11,7 @@ import { useCart } from "./context/CartContext";
 import Checkout from "./components/Checkout";
 import ProductCard from "./components/ProductCard";
 
-// ✅ Known categories ke liye emoji
+// Known categories ke liye emoji
 const CATEGORY_EMOJI = {
   fruit: "🍎",
   vegetable: "🥦",
@@ -26,7 +26,7 @@ const CATEGORY_EMOJI = {
 
 const getCategoryEmoji = (cat) => CATEGORY_EMOJI[cat?.toLowerCase()] || "📦";
 
-// ✅ Display label
+// Display label
 const getCategoryLabel = (cat) => {
   if (!cat) return "";
   const labels = {
@@ -49,7 +49,7 @@ function App() {
       .catch(err => console.log(err));
   }, []);
 
-  // ✅ Known order pehle, phir naye categories automatically
+  //  Known order pehle, phir naye categories automatically
   const knownOrder = ["fruit", "vegetable", "groceries", "homemade"];
 
   const allCategories = [
@@ -61,7 +61,7 @@ function App() {
       )
   ];
 
-  // ✅ Search filter
+  //  Search filter
   const filterBySearch = (productList) => {
     if (!searchQuery.trim()) return productList;
     const q = searchQuery.toLowerCase().trim();
@@ -78,7 +78,7 @@ function App() {
 
   const { addToCart } = useCart();
 
-  // ✅ Dynamic Section component
+  // Dynamic Section component
   const Section = ({ category }) => {
     const data = filterBySearch(products.filter(p => p.category === category));
     if (searchQuery.trim() && data.length === 0) return null;
@@ -185,7 +185,7 @@ function App() {
                     </div>
                   )}
 
-                  {/* ✅ DYNAMIC SECTIONS — API se jo bhi category aaye automatically section banta hai */}
+                  {/*  DYNAMIC SECTIONS — API se jo bhi category aaye automatically section banta hai */}
                   {allCategories.map(cat => (
                     <Section key={cat} category={cat} />
                   ))}

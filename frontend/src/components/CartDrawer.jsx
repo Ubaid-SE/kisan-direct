@@ -13,17 +13,17 @@ const CartDrawer = ({ open, setOpen }) => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  // 🔥 SPLIT CART
+  // SPLIT KR DIA CART KO
   const products = cart.filter(item => item.type !== "other");
   const others = cart.filter(item => item.type === "other");
 
-  // ✅ SIRF PRODUCTS KI PRICE CALCULATE KARO (other items ki price nahi hoti)
+  //  SIRF PRODUCTS KI PRICE CALCULATE KARO (other items ki price nahi hoti)
   const productsTotal = products.reduce((sum, item) => {
     const price = Number(item.price) || 0;
     return sum + price * item.qty;
   }, 0);
 
-  // ✅ FREE DELIVERY LOGIC
+  // FREE DELIVERY LOGIC
 const freeDeliveryThreshold = 1499;
 
 const remainingAmount = freeDeliveryThreshold - productsTotal;
@@ -31,7 +31,7 @@ const remainingAmount = freeDeliveryThreshold - productsTotal;
 const hasFreeDelivery = productsTotal >= freeDeliveryThreshold;
 
 const getTotalDisplay = () => {
-  // ✅ BOTH PRODUCTS + OTHER ITEMS
+  //  BOTH PRODUCTS + OTHER ITEMS
   if (products.length > 0 && others.length > 0) {
     if (hasFreeDelivery) {
       return `Rs. ${productsTotal} + Market Price + FREE Delivery`;
@@ -40,7 +40,7 @@ const getTotalDisplay = () => {
     }
   }
 
-  // ✅ ONLY PRODUCTS
+  //  ONLY PRODUCTS
   else if (products.length > 0) {
     if (hasFreeDelivery) {
       return `Rs. ${productsTotal} + FREE Delivery`;
@@ -49,12 +49,12 @@ const getTotalDisplay = () => {
     }
   }
 
-  // ✅ ONLY OTHER ITEMS
+  //  ONLY OTHER ITEMS
   else {
     return `Market Price + Delivery Charges`;
   }
 };
-  // ✅ WHATSAPP MESSAGE — same smart format
+  //  WHATSAPP MESSAGE — same smart format
   const handleOrder = () => {
     if (!name || !phone || !address) {
       alert("Please fill all details");

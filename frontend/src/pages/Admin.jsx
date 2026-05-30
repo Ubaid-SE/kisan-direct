@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// ✅ Base categories hamesha dropdown mein rahein gi
+//  Base categories hamesha dropdown mein rahein gi
 const BASE_CATEGORIES = [
   { value: "fruit", label: "🍎 Fruit" },
   { value: "vegetable", label: "🥦 Vegetable" },
@@ -27,7 +27,7 @@ function Admin() {
     stock: true,
     category: "fruit",
     unit: "kg",
-    variant: "",   // ✅ NEW: e.g. "900 grams", "Large", "450g"
+    variant: "",   //  NEW: e.g. "900 grams", "Large", "450g"
     discount: ""
   });
 
@@ -165,7 +165,7 @@ function Admin() {
     }
   };
 
-  // 🔒 LOGIN
+  //  LOGIN
   if (!isAuth) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -241,7 +241,7 @@ function Admin() {
             <p className="text-xs text-gray-400">Quantity counter ke saath dikhega (1 kg, 2 litre...)</p>
           </div>
 
-          {/* ✅ VARIANT — sirf non-fruit/vegetable ke liye */}
+          {/*  VARIANT — sirf non-fruit/vegetable ke liye */}
           {showVariantField && (
             <div className="flex flex-col gap-1">
               <input

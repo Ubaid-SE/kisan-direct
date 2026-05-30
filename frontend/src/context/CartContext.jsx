@@ -6,18 +6,18 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
 
-  // ✅ LOAD FROM LOCAL STORAGE
+  // LOAD FROM LOCAL STORAGE
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // ✅ SAVE TO LOCAL STORAGE
+  // SAVE TO LOCAL STORAGE
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // ✅ ADD TO CART (FIXED + STRONG MATCHING)
+  // ADD TO CART (FIXED + STRONG MATCHING)
   const addToCart = (item) => {
     const existing = cart.find(
       (p) =>
@@ -35,12 +35,12 @@ export const CartProvider = ({ children }) => {
       setCart([...cart, {
         ...item,
         qty: item.qty || 1,
-        price: Number(item.price) // ✅ ensure number
+        price: Number(item.price) // ensure number
       }]);
     }
   };
 
-  // ✅ INCREASE QTY
+  //  INCREASE QTY
   const increaseQty = (name, quality) => {
     setCart((prev) =>
       prev.map((p) =>
@@ -51,7 +51,7 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // ✅ DECREASE QTY
+  //  DECREASE QTY
   const decreaseQty = (name, quality) => {
     setCart((prev) =>
       prev.map((p) =>
@@ -62,20 +62,20 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // ✅ REMOVE ITEM
+  //  REMOVE ITEM
   const removeFromCart = (name, quality) => {
     setCart((prev) =>
       prev.filter((p) => !(p.name === name && p.quality === quality))
     );
   };
 
-  // ✅ CLEAR CART
+  //  CLEAR CART
   const clearCart = () => {
     setCart([]);
     localStorage.removeItem("cart");
   };
 
-  // ✅ TOTAL PRICE (FIXED)
+  // TOTAL PRICE (FIXED)
   const totalPrice = cart.reduce((acc, item) => {
     return acc + item.price * item.qty;
   }, 0);

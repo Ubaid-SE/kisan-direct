@@ -63,7 +63,7 @@ function ProductCard({ product, addToCart }) {
       {/* Name */}
       <h2 className="mt-1 font-semibold text-sm">{product.name}</h2>
 
-      {/* ✅ Fruit/Veg: Standard/Premium dropdown */}
+      {/*  Fruit/Veg: Standard/Premium dropdown */}
       {isFruitVeg && (
         <>
           <p className="text-xs text-gray-500 mt-0.5">{variantLabel}</p>
@@ -82,7 +82,7 @@ function ProductCard({ product, addToCart }) {
         </>
       )}
 
-      {/* ✅ Non fruit/veg: variant badge (e.g. "900 grams", "Large") */}
+      {/*  Non fruit/veg: variant badge (e.g. "900 grams", "Large") */}
       {!isFruitVeg && variant && (
         <span className="mt-1 inline-block text-[10px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded w-fit">
           {variant}
@@ -102,7 +102,7 @@ function ProductCard({ product, addToCart }) {
         )}
       </div>
 
-      {/* ✅ Quantity row */}
+      {/*  Quantity row */}
       <div className="flex items-center justify-between mt-2 text-sm">
         <div className="flex items-center gap-2">
           <button

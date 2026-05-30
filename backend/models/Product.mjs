@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema({
   // Unit — kg, litre, piece, etc.
   unit: { type: String, default: "kg" },
 
-  // ✅ NEW: Variant — admin likhega: "900 grams", "450g", "Large", "Small", "1 litre" etc.
+  //  NEW: Variant — admin likhega: "900 grams", "450g", "Large", "Small", "1 litre" etc.
   // Sirf non-fruit/vegetable categories ke liye
   variant: { type: String, default: "" }
 
