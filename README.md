@@ -93,7 +93,33 @@ MONGO_URI=your_mongodb_connection
 
 ## 📸 Screenshots
 
-Add your project screenshots here.
+### Home Page
+![Home](screenshots/home.PNG)
+
+---
+
+### Product Listing
+![Products](screenshots/Productlisting.PNG)
+
+---
+
+### Cart Page
+![Cart](screenshots/Cart.PNG)
+
+---
+
+### Admin Login
+![Admin Login](screenshots/admin login.PNG)
+
+---
+
+### Admin Panel
+![Admin Panel](screenshots/Admin panel.PNG)
+
+---
+
+### Admin Dashboard
+![Dashboard](screenshots/Admin dashboard.PNG)
 
 ---
 
