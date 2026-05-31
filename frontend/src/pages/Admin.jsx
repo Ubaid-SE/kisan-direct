@@ -31,8 +31,8 @@ function Admin() {
     discount: ""
   });
 
-  const ADMIN_USER = "KDC";
-  const ADMIN_PASS = "Kdc160905";
+const ADMIN_USER = import.meta.env.VITE_ADMIN_USER;
+const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
 
   // Fruit/Vegetable = standard+premium price, baaki = single price
   const isFreshCategory = form.category === "fruit" || form.category === "vegetable";
