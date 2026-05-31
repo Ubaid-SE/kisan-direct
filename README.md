@@ -109,17 +109,17 @@ MONGO_URI=your_mongodb_connection
 ---
 
 ### Admin Login
-![Admin Login](screenshots/admin login.PNG)
+![Admin Login](screenshots/admin-login.PNG)
 
 ---
 
 ### Admin Panel
-![Admin Panel](screenshots/Admin panel.PNG)
+![Admin Panel](screenshots/Admin-panel.PNG)
 
 ---
 
 ### Admin Dashboard
-![Dashboard](screenshots/Admin dashboard.PNG)
+![Dashboard](screenshots/Admin-dashboard.PNG)
 
 ---
 
