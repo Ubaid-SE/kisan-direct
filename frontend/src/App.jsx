@@ -44,11 +44,18 @@ function App() {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/products")
-      .then(res => setProducts(res.data))
-      .catch(err => console.log(err));
-  }, []);
+ useEffect(() => {
+  axios
+    .get(`${API_URL}/api/products`)
+    .then((res) => {
+      console.log("API_URL =", API_URL);
+      console.log("DATA =", res.data);
+      console.log("IS ARRAY =", Array.isArray(res.data));
+
+      setProducts(res.data);
+    })
+    .catch((err) => console.log(err));
+}, []);
 
   //  Known order pehle, phir naye categories automatically
   const knownOrder = ["fruit", "vegetable", "groceries", "homemade"];
