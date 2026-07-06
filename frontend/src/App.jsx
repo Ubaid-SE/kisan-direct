@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Admin from "./pages/Admin";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import AddOnSection from "./components/AddOnSection";
+import AddOnSection from "./components/AddonSection";
 import CartDrawer from "./components/CartDrawer";
 import fruits from "./assets/fruits.png";
 import TopBar from "./components/TopBar";
@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import { useCart } from "./context/CartContext";
 import Checkout from "./components/Checkout";
 import ProductCard from "./components/ProductCard";
+import { API_URL } from "./config";
 
 // Known categories ke liye emoji
 const CATEGORY_EMOJI = {

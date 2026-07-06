@@ -1,5 +1,5 @@
 import { useCart } from "../context/CartContext";
-import logo from "../assets/logo.png";
+import logo from "../assets/Logo.png";
 import { FaShoppingCart, FaMapMarkerAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 
 //  Base categories hamesha dropdown mein rahein gi
 const BASE_CATEGORIES = [
@@ -49,8 +50,8 @@ const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
   };
 
   const fetchProducts = () => {
-    axios.get("http://localhost:5000/api/products")
-      .then(res => {
+axios.get(`${API_URL}/api/products`)
+    .then(res => {
         setProducts(res.data);
         // DB se extra categories nikalo
         const baseValues = BASE_CATEGORIES.map(c => c.value);
@@ -118,11 +119,11 @@ const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
 
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/products/${editingId}`, finalData);
+axios.put(`${API_URL}/api/products/${editingId}`, finalData)
         alert("Product Updated");
         setEditingId(null);
       } else {
-        await axios.post("http://localhost:5000/api/products", finalData);
+      axios.post(`${API_URL}/api/products`, finalData) 
         alert("Product Added");
       }
 
@@ -149,7 +150,7 @@ const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
+axios.delete(`${API_URL}/api/products/${id}`)
       fetchProducts();
     } catch (err) {
       alert("Delete failed");
@@ -158,7 +159,7 @@ const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
 
   const toggleStock = async (item) => {
     try {
-      await axios.put(`http://localhost:5000/api/products/${item._id}`, { ...item, stock: !item.stock });
+    axios.put(`${API_URL}/api/products/${item._id}`, { ...item, stock: !item.stock })
       fetchProducts();
     } catch (err) {
       alert("Stock update failed");
