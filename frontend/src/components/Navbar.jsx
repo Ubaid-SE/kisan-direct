@@ -1,6 +1,6 @@
 import { useCart } from "../context/CartContext";
 import logo from "../assets/Logo.png";
-import { FaShoppingCart, FaMapMarkerAlt } from "react-icons/fa";
+import { FaShoppingCart, FaMapMarkerAlt, FaShieldAlt } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 
 // Category display label
@@ -64,6 +64,16 @@ function Navbar({ setOpen, searchQuery, setSearchQuery, categories = [] }) {
           <div className="hidden md:flex items-center gap-1 text-gray-600">
             <FaMapMarkerAlt /> Faisalabad
           </div>
+
+          {/* ADMIN PANEL BUTTON */}
+          <a
+            href="/admin"
+            className="hidden md:flex items-center gap-1.5 border border-green-600 text-green-700 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-green-50 transition-colors"
+          >
+            <FaShieldAlt className="text-green-600" />
+            Admin Panel
+          </a>
+
           <div className="relative cursor-pointer" onClick={() => setOpen(true)}>
             <FaShoppingCart className="text-xl" />
             {cart.length > 0 && (
@@ -90,6 +100,17 @@ function Navbar({ setOpen, searchQuery, setSearchQuery, categories = [] }) {
             ×
           </button>
         )}
+      </div>
+
+      {/* MOBILE ADMIN PANEL LINK */}
+      <div className="flex md:hidden justify-center pb-2">
+        <a
+          href="/admin"
+          className="flex items-center gap-1.5 border border-green-600 text-green-700 px-3 py-1 rounded-lg text-xs font-medium hover:bg-green-50 transition-colors"
+        >
+          <FaShieldAlt className="text-green-600" />
+          Admin Panel
+        </a>
       </div>
 
       {/*  DYNAMIC MENU — jo categories DB mein hain wahi buttons dikhenge */}
