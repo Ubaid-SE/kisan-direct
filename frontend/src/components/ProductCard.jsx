@@ -72,7 +72,7 @@ function ProductCard({ product, addToCart }) {
             onChange={(e) => {
               const val = e.target.value;
               setVariantLabel(val);
-              setSelectedQuality(val === "Premium / Export Quality" ? "Premium" : "Standard");
+              setSelectedQuality(val === "Premium " ? "Premium" : "Standard");
             }}
             className="mt-2 w-full border rounded px-2 py-1 text-xs"
           >
