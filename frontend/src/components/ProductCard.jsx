@@ -76,7 +76,7 @@ function ProductCard({ product, addToCart }) {
             }}
             className="mt-2 w-full border rounded px-2 py-1 text-xs"
           >
-            <option value="Premium / Export Quality">Premium / Export Quality</option>
+            <option value="Premium / Export Quality">Premium</option>
             <option value="Standard Quality">Standard Quality</option>
           </select>
         </>
